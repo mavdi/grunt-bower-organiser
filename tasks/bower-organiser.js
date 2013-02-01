@@ -45,13 +45,4 @@ module.exports = function(grunt) {
       });
     });
   });
-
-  // ==========================================================================
-  // HELPERS
-  // ==========================================================================
-
-  grunt.registerHelper('bower-organiser', function() {
-    return 'bower-organiser!!!';
-  });
-
 };
