@@ -17,13 +17,33 @@ module.exports = function(grunt) {
   //libs
   var path = require('path');
   var bower = require('bower');
+
+  //utils
+  var _ = grunt.utils._;
   var log = grunt.log.write; 
+
+  var config = _.extend( [], grunt.config.get('bowerOrganiser'), this.data);
+
 
   grunt.registerTask(TASK_NAME, TASK_DESC, function() {
 
     var done = this.async();
 
-    log('DATA---------> ' + this.data);
+    bower.commands.list({map : true}).on('data', function(data) {
+      log("data" + grunt.utils);
+      _.each(data, function(component) {
+        if(grunt.utils.kindOf(component.source.main) === 'array') {
+          _.each(component.source.main, function(source) {
+            var extension = source.split('.').pop();
+            grunt.file.copy(source, extension + '/' + path.basename(source));
+          });
+        } else {
+          var extension = component.source.main.split('.').pop();
+          grunt.file.copy(component.source.main, extension + '/' + path.basename(component.source.main));
+        }
+        
+      });
+    });
   });
 
   // ==========================================================================
