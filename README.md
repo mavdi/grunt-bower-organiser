@@ -15,7 +15,19 @@ grunt.loadNpmTasks('grunt-bower-organiser');
 [getting_started]: https://github.com/gruntjs/grunt/blob/master/docs/getting_started.md
 
 ## Documentation
-_(Coming soon)_
+To your [grunt.js gruntfile][getting_started], add:
+
+```javascript
+bowerOrganiser: {
+  mapping: {
+    js: 'js',
+    css: 'css',
+    less : 'less'
+  }
+}
+```
+
+The plugin will use the file extension as a directory if there are no mappings provided for a certain extension.
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
