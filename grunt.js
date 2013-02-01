@@ -14,7 +14,7 @@ module.exports = function(grunt) {
     },
     bowerOrganiser : {
       mapping : {
-        js : "js"
+        js : "lib"
       }
     },
 

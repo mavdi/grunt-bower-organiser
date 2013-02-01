@@ -35,11 +35,13 @@ module.exports = function(grunt) {
         if(grunt.utils.kindOf(component.source.main) === 'array') {
           _.each(component.source.main, function(source) {
             var extension = source.split('.').pop();
-            grunt.file.copy(source, extension + '/' + path.basename(source));
+            var targetFolder = config.mapping[extension] || extension;
+            grunt.file.copy(source, targetFolder + '/' + path.basename(source));
           });
         } else {
           var extension = component.source.main.split('.').pop();
-          grunt.file.copy(component.source.main, extension + '/' + path.basename(component.source.main));
+          var targetFolder = config.mapping[extension] || extension;
+          grunt.file.copy(component.source.main, targetFolder + '/' + path.basename(component.source.main));
         }
         
       });
