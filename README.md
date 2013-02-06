@@ -36,7 +36,7 @@ Plugin now accepts folders in the ```main``` section of ```component.json```.
   "main": "./less/",
   "dependencies": {},
   "gitHead": "",
-  "_id": "320andup@1.0.0",
+  "_id": "some-module@1.0.0",
   "readme": "",
   "repository": {
     "type": "git",
