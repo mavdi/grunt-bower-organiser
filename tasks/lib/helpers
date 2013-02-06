@@ -11,7 +11,8 @@ exports.init = function(grunt, _) {
         var extension = filename.split('.').pop();
         var targetFolder = config.mapping[extension] || extension;
         targetFolder = (config.options && config.options.includeName) ? targetFolder + '/' + name : targetFolder;
-        grunt.file.copy(source+filename, targetFolder + '/' + path.basename(filename));
+        var pathToFile = (subdir) ? source+ subdir + '/' + filename : source + filename;
+        grunt.file.copy(pathToFile, targetFolder + '/' + path.basename(filename));
       })
       return;
     }

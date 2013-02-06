@@ -31,7 +31,6 @@ module.exports = function(grunt) {
     var done = this.async();
 
     bower.commands.list({map : true}).on('data', function(data) {
-      log("data" + grunt.utils);
       _.each(data, function(component, name) {
         helpers.parse(config, name, component.source.main);
       });
