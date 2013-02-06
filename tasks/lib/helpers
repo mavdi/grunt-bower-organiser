@@ -1,0 +1,43 @@
+
+
+exports.init = function(grunt, _) {
+
+  var exports = {};
+  var path = require('path');
+
+  function copyFiles(config, source) {
+    if(isFolder(source)) {
+      grunt.file.recurse(source, function(abspath, rootdir, subdir, filename) {
+        var extension = filename.split('.').pop();
+        var targetFolder = config.mapping[extension] || extension;
+        grunt.file.copy(source+filename, targetFolder + '/' + path.basename(filename));
+      })
+      return;
+    }
+
+    var extension = source.split('.').pop();
+    var targetFolder = config.mapping[extension] || extension;
+    grunt.file.copy(source, targetFolder + '/' + path.basename(source));
+  }
+
+  function isFolder(path) {
+    if(path.charAt(path.length - 1) === '/') {
+      return true;
+    }
+
+    return false;
+  }
+
+  exports.copyFiles = function(config, main) {
+    if(grunt.utils.kindOf(main) === 'array') {
+      _.each(main, function(source) {
+        copyFiles(config, source);
+      });
+    } else {
+      copyFiles(config, main);
+    }
+  }
+
+  return exports;
+};
+

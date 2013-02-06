@@ -20,12 +20,32 @@ To your [grunt.js gruntfile][getting_started], add:
 ```javascript
 bowerOrganiser: {
   mapping: {
-    js: 'js',
+    js: 'lib',
     css: 'css',
     less : 'less'
   }
 }
 ```
+
+Plugin now accepts folders in the '''main''' section of '''component.json'''. 
+
+'''
+{
+  "name": "some-module",
+  "version": "1.0.0",
+  "main": "./less/",
+  "dependencies": {},
+  "gitHead": "",
+  "_id": "320andup@1.0.0",
+  "readme": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  }
+}
+'''
+
+will copy all the files in the '''less''' folder over to the destination specified in the mappings.
 
 The plugin will use the file extension as a directory if there are no mappings provided for a certain extension.
 

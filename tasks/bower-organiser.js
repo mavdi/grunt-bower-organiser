@@ -21,6 +21,7 @@ module.exports = function(grunt) {
   //utils
   var _ = grunt.utils._;
   var log = grunt.log.write; 
+  var helpers = require('./lib/helpers').init(grunt, _);
 
   var config = _.extend( [], grunt.config.get('bowerOrganiser'), this.data);
 
@@ -32,18 +33,7 @@ module.exports = function(grunt) {
     bower.commands.list({map : true}).on('data', function(data) {
       log("data" + grunt.utils);
       _.each(data, function(component) {
-        if(grunt.utils.kindOf(component.source.main) === 'array') {
-          _.each(component.source.main, function(source) {
-            var extension = source.split('.').pop();
-            var targetFolder = config.mapping[extension] || extension;
-            grunt.file.copy(source, targetFolder + '/' + path.basename(source));
-          });
-        } else {
-          var extension = component.source.main.split('.').pop();
-          var targetFolder = config.mapping[extension] || extension;
-          grunt.file.copy(component.source.main, targetFolder + '/' + path.basename(component.source.main));
-        }
-        
+        helpers.copyFiles(config, component.source.main);
       });
     });
   });
