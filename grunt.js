@@ -13,6 +13,9 @@ module.exports = function(grunt) {
       tasks: 'default'
     },
     bowerOrganiser : {
+      options : {
+        includeName : true
+      },
       mapping : {
         js : "lib"
       }
