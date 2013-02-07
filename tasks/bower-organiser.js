@@ -34,6 +34,7 @@ module.exports = function(grunt) {
       _.each(data, function(component, name) {
         helpers.parse(config, name, component.source.main);
       });
+      done();
     });
   });
 };
