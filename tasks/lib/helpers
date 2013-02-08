@@ -6,21 +6,37 @@ exports.init = function(grunt, _) {
   var path = require('path');
 
   function copyFiles(config, name, source) {
+    var targetDest;
+
     if(isFolder(source)) {
       grunt.file.recurse(source, function(abspath, rootdir, subdir, filename) {
-        var extension = filename.split('.').pop();
-        var targetFolder = config.mapping[extension] || extension;
-        targetFolder = (config.options && config.options.includeName) ? targetFolder + '/' + name : targetFolder;
         var pathToFile = (subdir) ? source+ subdir + '/' + filename : source + filename;
-        grunt.file.copy(pathToFile, targetFolder + '/' + path.basename(filename));
+        
+        if(targetDest = isSpecific(config, filename)) {
+          console.log('specific source found for ' + filename + '\n');
+          grunt.file.copy(pathToFile, targetDest + '/' + path.basename(filename));
+
+        } else {
+          var extension = filename.split('.').pop();
+          var targetFolder = config.mapping[extension] || extension;
+          targetFolder = (config.options && config.options.includeName) ? targetFolder + '/' + name : targetFolder;
+          grunt.file.copy(pathToFile, targetFolder + '/' + path.basename(filename));
+        }
+        
       })
       return;
     }
 
-    var extension = source.split('.').pop();
-    var targetFolder = config.mapping[extension] || extension;
-    targetFolder = (config.options && config.options.includeName) ? targetFolder + '/' + name : targetFolder;
-    grunt.file.copy(source, targetFolder + '/' + path.basename(source));
+    if(targetDest = isSpecific(config, source)) {
+      console.log('specific source found for ' + source + '\n');
+      grunt.file.copy(pathToFile, targetDest + '/' + path.basename(source));
+    } else {
+      var extension = source.split('.').pop();
+      var targetFolder = config.mapping[extension] || extension;
+      targetFolder = (config.options && config.options.includeName) ? targetFolder + '/' + name : targetFolder;
+      grunt.file.copy(source, targetFolder + '/' + path.basename(source));
+    }
+    
   }
 
   function isFolder(path) {
@@ -31,7 +47,25 @@ exports.init = function(grunt, _) {
     return false;
   }
 
+  function isSpecific(config, fileName) {
+    var ret = false;
+    if(!config.specifics) return;
+    _.each(config.specifics, function(specific) {
+      _.each(specific, function(targetDest, targetFile) {
+        if(fileName === targetFile) {
+          ret = targetDest;
+          return;
+        }
+      });
+    });
+    
+    return ret;
+  }
+
   exports.parse = function(config, name, main) {
+    if(typeof(main) === undefined) {
+      grunt.log.write('no main found for ' + name + 'skipping \n')
+    }
     if(grunt.utils.kindOf(main) === 'array') {
       _.each(main, function(source) {
         copyFiles(config, name, source);
