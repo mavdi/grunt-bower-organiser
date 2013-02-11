@@ -4,6 +4,7 @@ exports.init = function(grunt, _) {
 
   var exports = {};
   var path = require('path');
+  var fs = require('fs');
 
   function copyFiles(config, name, source) {
     var targetDest;
@@ -14,13 +15,13 @@ exports.init = function(grunt, _) {
         
         if(targetDest = isSpecific(config, filename)) {
           console.log('specific source found for ' + filename + '\n');
-          grunt.file.copy(pathToFile, targetDest + '/' + path.basename(filename));
+          copy(pathToFile, targetDest + '/' + path.basename(filename));
 
         } else {
           var extension = filename.split('.').pop();
           var targetFolder = config.mapping[extension] || extension;
           targetFolder = (config.options && config.options.includeName) ? targetFolder + '/' + name : targetFolder;
-          grunt.file.copy(pathToFile, targetFolder + '/' + path.basename(filename));
+          copy(pathToFile, targetFolder + '/' + path.basename(filename));
         }
         
       })
@@ -29,12 +30,12 @@ exports.init = function(grunt, _) {
 
     if(targetDest = isSpecific(config, source)) {
       console.log('specific source found for ' + source + '\n');
-      grunt.file.copy(pathToFile, targetDest + '/' + path.basename(source));
+      copy(pathToFile, targetDest + '/' + path.basename(source));
     } else {
       var extension = source.split('.').pop();
       var targetFolder = config.mapping[extension] || extension;
       targetFolder = (config.options && config.options.includeName) ? targetFolder + '/' + name : targetFolder;
-      grunt.file.copy(source, targetFolder + '/' + path.basename(source));
+      copy(source, targetFolder + '/' + path.basename(source));
     }
     
   }
@@ -62,9 +63,17 @@ exports.init = function(grunt, _) {
     return ret;
   }
 
+  function copy(source, target) {
+    if(fs.existsSync(target)) {
+      grunt.log.write('>>> File already exists ' + target + ' skipping\n');
+      return;
+    }
+    grunt.file.copy(source, target);
+  }
+
   exports.parse = function(config, name, main) {
     if(typeof(main) === undefined) {
-      grunt.log.write('no main found for ' + name + 'skipping \n')
+      grunt.log.write('no main found for ' + name + 'skipping \n');
     }
     if(grunt.utils.kindOf(main) === 'array') {
       _.each(main, function(source) {
