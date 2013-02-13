@@ -28,9 +28,9 @@ exports.init = function(grunt, _) {
       return;
     }
 
-    if(targetDest = isSpecific(config, source)) {
+    if(targetDest = isSpecific(config, path.basename(source))) {
       console.log('specific source found for ' + source + '\n');
-      copy(pathToFile, targetDest + '/' + path.basename(source));
+      copy(source, targetDest + '/' + path.basename(source));
     } else {
       var extension = source.split('.').pop();
       var targetFolder = config.mapping[extension] || extension;
