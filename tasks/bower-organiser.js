@@ -19,7 +19,7 @@ module.exports = function(grunt) {
   var bower = require('bower');
 
   //utils
-  var _ = grunt.utils._;
+  var _ = grunt.util._;
   var log = grunt.log.write; 
   var helpers = require('./lib/helpers').init(grunt, _);
 
