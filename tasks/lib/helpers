@@ -40,7 +40,8 @@ exports.init = function(grunt, _) {
   }
 
   function isFolder(path) {
-    if(path.charAt(path.length - 1) === '/') {
+    var lastChar = path.charAt(path.length - 1);
+    if(lastChar === '/' || lastChar === '\\') {
       return true;
     }
 
