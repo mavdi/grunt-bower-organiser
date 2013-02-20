@@ -1,7 +1,7 @@
 {
   "name": "grunt-bower-organiser",
   "description": "Organises Bower components according to their types",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "homepage": "https://github.com/mavdi/grunt-bower-organiser",
   "author": {
     "name": "Mehdi Avdi",
@@ -28,7 +28,8 @@
   "scripts": {
     "test": "grunt test"
   },
-  "devDependencies": {
+  "dependencies": {
+    "grunt-contrib-nodeunit": "~0.1.2",
     "grunt": "~0.4.0",
     "bower": "~0.7.0"
   },

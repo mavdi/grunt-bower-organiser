@@ -77,6 +77,7 @@ The plugin will use the file extension as a directory if there are no mappings p
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
 
 ## Release History
+* v.7.0 Grunt 0.4 compatible
 * v0.6.0 Added the ability to move specific files to different destinations than the ones declared in the mappings.
 * v0.5.0 Folder recursion bug fixes.
 * v0.4.0 options added to include package name when placing the assets.
