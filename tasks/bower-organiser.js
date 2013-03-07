@@ -17,6 +17,7 @@ module.exports = function(grunt) {
   //libs
   var path = require('path');
   var bower = require('bower');
+  var clc = require('cli-color');
 
   //utils
   var _ = grunt.util._;
@@ -32,7 +33,11 @@ module.exports = function(grunt) {
 
     bower.commands.list({map : true}).on('data', function(data) {
       _.each(data, function(component, name) {
-        helpers.parse(config, name, component.source.main);
+        if(component.source.main) {
+          helpers.parse(config, name, component.source.main);
+        } else {
+          console.log(clc.red('>>> main property not found in component.json for package ' + name));
+        }
       });
       done();
     });

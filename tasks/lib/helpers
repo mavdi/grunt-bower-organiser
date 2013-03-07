@@ -3,6 +3,7 @@ exports.init = function(grunt, _) {
   var exports = {};
   var path = require('path');
   var fs = require('fs');
+  var clc = require('cli-color');
   grunt.util = grunt.utils || grunt.util;
 
   function copyFiles(config, name, source) {
@@ -65,7 +66,7 @@ exports.init = function(grunt, _) {
 
   function copy(source, target) {
     if(fs.existsSync(target)) {
-      grunt.log.write('>>> File already exists ' + target + ' skipping\n');
+      grunt.log.write(clc.green('>>> File already exists ' + target + ' skipping\n'));
       return;
     }
     grunt.file.copy(source, target);
